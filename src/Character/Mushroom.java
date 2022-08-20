@@ -81,8 +81,8 @@ public class Mushroom extends Character implements Runnable {
         Image img;
 
         if(this.isWalkingInRight() == true){
-            str = "../images/champEcraseDroite.png";
-        } else { str = "../images/champEcraseGauche.png";}
+            str = "images/champEcraseDroite.png";
+        } else { str = "images/champEcraseGauche.png";}
         img = Toolkit.getDefaultToolkit().getImage(str);
         return img;
     }

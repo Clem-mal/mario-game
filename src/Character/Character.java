@@ -111,24 +111,24 @@ public Image walk(String name, int frequency){
     if (this.isWalking == false){
 
         if (this.isWalkingInRight == true) {
-            str = "../images/" + name + "ArretDroite.png";
+            str = "images/" + name + "ArretDroite.png";
         } else {
-            str = "../images/" + name + "ArretGauche.png";
+            str = "images/" + name + "ArretGauche.png";
         }
     } else {
         this.counter++;
 
         if(this.counter / frequency == 0){
                 if( this.isWalkingInRight == true){
-                    str = "../images/" + name + "ArretDroite.png";
+                    str = "images/" + name + "ArretDroite.png";
                 }else {
-                    str = "../images/" + name + "ArretGauche.png";
+                    str = "images/" + name + "ArretGauche.png";
                         }
         } else {
                 if( this.isWalkingInRight == true){
-                    str = "../images/" + name + "MarcheDroite.png";
+                    str = "images/" + name + "MarcheDroite.png";
                 }else {
-                    str = "../images/" + name + "MarcheGauche.png";
+                    str = "images/" + name + "MarcheGauche.png";
                     }
 
             }if(this.counter == 2 * frequency){

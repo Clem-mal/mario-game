@@ -20,9 +20,9 @@ public class Coin extends Objets implements Runnable {
 
         this.counter++;
         if (this.counter /100 == 0) {
-            str = "../images/piece1.png";
+            str = "images/piece1.png";
         } else {
-            str = "../images/piece2.png";
+            str = "images/piece2.png";
         }
         if (this.counter == 200) {
             this.counter = 0;

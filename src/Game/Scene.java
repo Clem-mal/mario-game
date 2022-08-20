@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import Affichage.Score;
 import Character.Koopa;
 import Character.Mario;
 import Character.Mushroom;
@@ -13,14 +14,14 @@ import Objets.Objets;
 import Objets.TuyauRouge;
 
 public class Scene extends JPanel {
-    private Image imgBackground = Toolkit.getDefaultToolkit().getImage("../images/ecran.png");
-    private Image imgBackground2 = Toolkit.getDefaultToolkit().getImage("../images/ecran.png");
+    private Image imgBackground = Toolkit.getDefaultToolkit().getImage("images/ecran.png");
+    private Image imgBackground2 = Toolkit.getDefaultToolkit().getImage("images/ecran.png");
     // private Image imgMario =
     // Toolkit.getDefaultToolkit().getImage("images/marioMarcheDroite.png");
-    private Image imgCastel = Toolkit.getDefaultToolkit().getImage("../images/chateau1.png");
-    private Image imgStart = Toolkit.getDefaultToolkit().getImage("../images/depart.png");
-    private Image imgFlag = Toolkit.getDefaultToolkit().getImage("../images/drapeau.png");
-    private Image imgCastelEnd = Toolkit.getDefaultToolkit().getImage("../images/chateauFin.png");
+    private Image imgCastel = Toolkit.getDefaultToolkit().getImage("images/chateau1.png");
+    private Image imgStart = Toolkit.getDefaultToolkit().getImage("images/depart.png");
+    private Image imgFlag = Toolkit.getDefaultToolkit().getImage("images/drapeau.png");
+    private Image imgCastelEnd = Toolkit.getDefaultToolkit().getImage("images/chateauFin.png");
 
     private int xBackground; // posotion du background
     private int xBackground2;
@@ -89,6 +90,8 @@ public class Scene extends JPanel {
     private ArrayList<Objets> allObjets;
     private ArrayList<Coin> allCoin;
 
+    private Score score;
+    private Font police;
     public Scene() { // : ici Scene est un Constructeur (methode particulière)
 
         super();
@@ -207,6 +210,10 @@ public class Scene extends JPanel {
         this.allObjets.add(this.block8);
         this.allObjets.add(this.block9);
         this.allObjets.add(this.block10);
+
+        score = new Score();
+        police = new Font ("Arial", Font.PLAIN, 18);
+       
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -349,6 +356,7 @@ public class Scene extends JPanel {
             if (this.mario.isClose(this.allCoin.get(i))) {
                 if (this.mario.contactCoin(this.allCoin.get(i))) {
                     this.allCoin.remove(i);
+                    this.score.setNumberCoin(this.score.getNumberCoin() +1);
                 }
             }
         }
@@ -377,7 +385,7 @@ public class Scene extends JPanel {
 
             }
 
-            for (int j = 1; j < this.allKoopa.size(); j++) {
+            for (int j = 0; j < this.allKoopa.size(); j++) {
                 if (j != i) {
                     if (this.allKoopa.get(j).isClose(this.allKoopa.get(i))) {
                         this.allKoopa.get(j).contact(this.allKoopa.get(i));
@@ -428,6 +436,9 @@ public class Scene extends JPanel {
                         this);
             }
         }
+
+        g2.setFont(police);
+        g2.drawString(this.score.getNumberCoin() + "pièce(s) trouvée(s) sur " + this.score.getNBRE_TOTAL_COIN(), 460, 25);
 
         // if(this.mushroom.isLife() == true){
         // g2.drawImage(this.mushroom.walk("champ", 45), this.mushroom.getX(),
