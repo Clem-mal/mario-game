@@ -8,6 +8,7 @@ public class Mario extends Character {
     private Image imgMario;
     private boolean isJumping;
     private int counterJump; // durée du saut et haute du saut
+    private int compteurDead;
 
 
     public Mario (int x, int y){
@@ -16,6 +17,7 @@ public class Mario extends Character {
 
         this.isJumping = false;
         this.counterJump = 0;
+        this.compteurDead = 0;
     }
 
     public boolean isJumping() {
@@ -140,6 +142,20 @@ public class Mario extends Character {
                 character.setWalk(false);
                 character.setLife(false);
             }
+        }
+
+        public Image isDead(){
+            String str;
+            Image img;
+
+            str ="images/boom.png";
+            this.compteurDead++;
+            if(this.compteurDead > 100){
+                str ="images/marioMeurt.png";
+                this.setY(this.getY() - 1 );
+            }
+            img = Toolkit.getDefaultToolkit().getImage(str);
+            return img;
         }
 
     }

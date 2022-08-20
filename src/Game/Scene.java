@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import Affichage.CompteARebours;
 import Affichage.Score;
 import Character.Koopa;
 import Character.Mario;
@@ -92,6 +93,8 @@ public class Scene extends JPanel {
 
     private Score score;
     private Font police;
+
+    private CompteARebours compteARebours;
     public Scene() { // : ici Scene est un Constructeur (methode particulière)
 
         super();
@@ -213,6 +216,8 @@ public class Scene extends JPanel {
 
         score = new Score();
         police = new Font ("Arial", Font.PLAIN, 18);
+
+        compteARebours = new CompteARebours();
        
 
         this.setFocusable(true);
@@ -300,6 +305,31 @@ public class Scene extends JPanel {
         }
 
     }
+
+    private boolean gameIsWin(){
+        if(this.compteARebours.getCompteurTemps() > 0 && this.mario.isLife() == true && this.score.getNBRE_TOTAL_COIN() == 10 && this.xPos > 4400) {
+            return true; 
+        } else {
+            return false;
+        }
+    }
+
+    private boolean gameIsLoose(){
+        if(this.mario.isLife() == false || this.compteARebours.getCompteurTemps()<= 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private boolean endOfGame(){
+        if(this.gameIsWin() == true || this.gameIsLoose() == true){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public void paintComponent(Graphics g) {
 
@@ -411,10 +441,13 @@ public class Scene extends JPanel {
         g2.drawImage(imgCastelEnd, 5000 - this.xPos, 145, this);
         g2.drawImage(imgFlag, 4650 - this.xPos, 115, this);
 
-        if (this.mario.isJumping()) {
-            g2.drawImage(this.mario.jump(), this.mario.getX(), this.mario.getY(), this);
+        if(this.mario.isLife() == true){
+            if (this.mario.isJumping()) {
+                g2.drawImage(this.mario.jump(), this.mario.getX(), this.mario.getY(), this);
+            } else {
+                g2.drawImage(this.mario.walk("mario", 25), this.mario.getX(), this.mario.getY(), this);}
         } else {
-            g2.drawImage(this.mario.walk("mario", 25), this.mario.getX(), this.mario.getY(), this);
+            g2.drawImage(this.mario.isDead(), this.mario.getX(), this.mario.getY(), this);
         }
 
         for (int i = 0; i < this.allMushroom.size(); i++) {
@@ -438,7 +471,19 @@ public class Scene extends JPanel {
         }
 
         g2.setFont(police);
-        g2.drawString(this.score.getNumberCoin() + "pièce(s) trouvée(s) sur " + this.score.getNBRE_TOTAL_COIN(), 460, 25);
+        g2.drawString(this.score.getNumberCoin() + " pièce(s) trouvée(s) sur " + this.score.getNBRE_TOTAL_COIN(), 460, 25);
+
+        g2.drawString(this.compteARebours.getStr(), 5, 25);
+
+        if(this.endOfGame() == true){
+            Font policeEnd = new Font ("Arial", Font.BOLD, 50);
+            g2.setFont(policeEnd);
+            if(this.gameIsWin() == true){
+                g2.drawString("Tu as gagné !", 120, 180);
+            } else {
+                g2.drawString("Tu as perdu:) ", 120, 180);
+            }
+        }
 
         // if(this.mushroom.isLife() == true){
         // g2.drawImage(this.mushroom.walk("champ", 45), this.mushroom.getX(),
