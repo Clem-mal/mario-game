@@ -1,5 +1,8 @@
 package Game;
 import java.awt.event.KeyListener;
+
+import audio.Audio;
+
 import java.awt.event.KeyEvent;
 
 
@@ -32,6 +35,7 @@ public class Keyboard implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
             Main.scene.mario.setJumping(true);
+            Audio.playSound("audio/saut.wav");
         }
      }
     }

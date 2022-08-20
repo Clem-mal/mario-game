@@ -3,6 +3,7 @@ import java.awt.*;
 import Game.Main;
 import Objets.Coin;
 import Objets.Objets;
+import audio.Audio;
 
 public class Mario extends Character {
     private Image imgMario;
@@ -149,6 +150,13 @@ public class Mario extends Character {
             Image img;
 
             str ="images/boom.png";
+            if(this.compteurDead == 0) {
+                Audio.playSound("audio/boum.wav");
+            }
+            if(this.compteurDead == 100) {
+                Audio.playSound("audio/partiePerdue.wav");
+            }
+
             this.compteurDead++;
             if(this.compteurDead > 100){
                 str ="images/marioMeurt.png";

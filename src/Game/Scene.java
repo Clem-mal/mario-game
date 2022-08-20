@@ -13,6 +13,7 @@ import Objets.Block;
 import Objets.Coin;
 import Objets.Objets;
 import Objets.TuyauRouge;
+import audio.Audio;
 
 public class Scene extends JPanel {
     private Image imgBackground = Toolkit.getDefaultToolkit().getImage("images/ecran.png");
@@ -94,7 +95,10 @@ public class Scene extends JPanel {
     private Score score;
     private Font police;
 
+    private boolean musicWin;
+
     private CompteARebours compteARebours;
+
     public Scene() { // : ici Scene est un Constructeur (methode particulière)
 
         super();
@@ -105,6 +109,7 @@ public class Scene extends JPanel {
         this.xPos = -1;
         this.ySol = 293;
         this.hauteurPlafond = 0;
+        this.musicWin = true;
 
         mario = new Mario(300, 245);
 
@@ -128,7 +133,7 @@ public class Scene extends JPanel {
         block9 = new Block(4200, 170);
         block10 = new Block(4300, 180);
 
-        coin1 = new Coin(602, 145);
+        coin1 = new Coin(602, 160);
         coin2 = new Coin(1202, 140);
         coin3 = new Coin(1272, 95);
         coin4 = new Coin(1342, 40);
@@ -137,7 +142,7 @@ public class Scene extends JPanel {
         coin7 = new Coin(3000, 135);
         coin8 = new Coin(3400, 125);
         coin9 = new Coin(4200, 145);
-        coin10 = new Coin(4600, 1000);
+        coin10 = new Coin(4600, 160);
 
         // koopa = new Koopa(950, 243);
         koopa1 = new Koopa(950, 243);
@@ -215,10 +220,9 @@ public class Scene extends JPanel {
         this.allObjets.add(this.block10);
 
         score = new Score();
-        police = new Font ("Arial", Font.PLAIN, 18);
+        police = new Font("Arial", Font.PLAIN, 18);
 
         compteARebours = new CompteARebours();
-       
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -306,30 +310,34 @@ public class Scene extends JPanel {
 
     }
 
-    private boolean gameIsWin(){
-        if(this.compteARebours.getCompteurTemps() > 0 && this.mario.isLife() == true && this.score.getNBRE_TOTAL_COIN() == 10 && this.xPos > 4400) {
-            return true; 
-        } else {
-            return false;
-        }
-    }
-
-    private boolean gameIsLoose(){
-        if(this.mario.isLife() == false || this.compteARebours.getCompteurTemps()<= 0){
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    private boolean endOfGame(){
-        if(this.gameIsWin() == true || this.gameIsLoose() == true){
+    private boolean gameIsWin() {
+        if (this.compteARebours.getCompteurTemps() > 0 && this.mario.isLife() == true
+                && this.score.getNBRE_TOTAL_COIN() == 10 && this.xPos > 4400) {
+                    if(this.musicWin == true){
+                        Audio.playSound(("audio/partieGagnee.wav"));
+                        this.musicWin = false;
+                    }
             return true;
         } else {
             return false;
         }
     }
 
+    private boolean gameIsLoose() {
+        if (this.mario.isLife() == false || this.compteARebours.getCompteurTemps() <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean endOfGame() {
+        if (this.gameIsWin() == true || this.gameIsLoose() == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void paintComponent(Graphics g) {
 
@@ -339,12 +347,18 @@ public class Scene extends JPanel {
         for (int i = 0; i < this.allMushroom.size(); i++) {
             if (this.mario.isClose(this.allMushroom.get(i)) && this.allMushroom.get(i).isLife() == true) {
                 this.mario.contact(this.allMushroom.get(i));
+                if(this.allMushroom.get(i).isLife() == false) {
+                    Audio.playSound("audio/ecrasePersonnage.wav");
+                }
             }
         }
 
         for (int i = 0; i < this.allKoopa.size(); i++) {
             if (this.mario.isClose(this.allKoopa.get(i)) && this.allKoopa.get(i).isLife() == true) {
                 this.mario.contact(this.allKoopa.get(i));
+                if(this.allKoopa.get(i).isLife() == false) {
+                    Audio.playSound("audio/ecrasePersonnage.wav");
+                }
             }
         }
 
@@ -385,8 +399,9 @@ public class Scene extends JPanel {
         for (int i = 0; i < this.allCoin.size(); i++) {
             if (this.mario.isClose(this.allCoin.get(i))) {
                 if (this.mario.contactCoin(this.allCoin.get(i))) {
+                    Audio.playSound("audio/piece.wav");
                     this.allCoin.remove(i);
-                    this.score.setNumberCoin(this.score.getNumberCoin() +1);
+                    this.score.setNumberCoin(this.score.getNumberCoin() + 1);
                 }
             }
         }
@@ -441,11 +456,12 @@ public class Scene extends JPanel {
         g2.drawImage(imgCastelEnd, 5000 - this.xPos, 145, this);
         g2.drawImage(imgFlag, 4650 - this.xPos, 115, this);
 
-        if(this.mario.isLife() == true){
+        if (this.mario.isLife() == true) {
             if (this.mario.isJumping()) {
                 g2.drawImage(this.mario.jump(), this.mario.getX(), this.mario.getY(), this);
             } else {
-                g2.drawImage(this.mario.walk("mario", 25), this.mario.getX(), this.mario.getY(), this);}
+                g2.drawImage(this.mario.walk("mario", 25), this.mario.getX(), this.mario.getY(), this);
+            }
         } else {
             g2.drawImage(this.mario.isDead(), this.mario.getX(), this.mario.getY(), this);
         }
@@ -471,14 +487,15 @@ public class Scene extends JPanel {
         }
 
         g2.setFont(police);
-        g2.drawString(this.score.getNumberCoin() + " pièce(s) trouvée(s) sur " + this.score.getNBRE_TOTAL_COIN(), 460, 25);
+        g2.drawString(this.score.getNumberCoin() + " pièce(s) trouvée(s) sur " + this.score.getNBRE_TOTAL_COIN(), 460,
+                25);
 
         g2.drawString(this.compteARebours.getStr(), 5, 25);
 
-        if(this.endOfGame() == true){
-            Font policeEnd = new Font ("Arial", Font.BOLD, 50);
+        if (this.endOfGame() == true) {
+            Font policeEnd = new Font("Arial", Font.BOLD, 50);
             g2.setFont(policeEnd);
-            if(this.gameIsWin() == true){
+            if (this.gameIsWin() == true) {
                 g2.drawString("Tu as gagné !", 120, 180);
             } else {
                 g2.drawString("Tu as perdu:) ", 120, 180);
