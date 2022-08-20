@@ -15,10 +15,10 @@ public class Scene extends JPanel{
        private Image imgBackground = Toolkit.getDefaultToolkit().getImage("../images/ecran.png");
        private Image imgBackground2 = Toolkit.getDefaultToolkit().getImage("../images/ecran.png");
     //    private Image imgMario = Toolkit.getDefaultToolkit().getImage("images/marioMarcheDroite.png");
-       private Image imgCastel = Toolkit.getDefaultToolkit().getImage("../images/chateau1.png");
-       private Image imgStart= Toolkit.getDefaultToolkit().getImage("../images/depart.png");
-       private Image imgFlag = Toolkit.getDefaultToolkit().getImage("../images/drapeau.png");
-       private Image imgCastelEnd = Toolkit.getDefaultToolkit().getImage("../images/chateauFin.png");
+       private Image imgCastel = Toolkit.getDefaultToolkit().getImage("images/chateau1.png");
+       private Image imgStart= Toolkit.getDefaultToolkit().getImage("images/depart.png");
+       private Image imgFlag = Toolkit.getDefaultToolkit().getImage("images/drapeau.png");
+       private Image imgCastelEnd = Toolkit.getDefaultToolkit().getImage("images/chateauFin.png");
 
        private int xBackground; // posotion du background
        private int xBackground2;
@@ -308,12 +308,17 @@ private ArrayList<Coin> allCoin;
 
        
         
-        if(this.mario.isClose(mushroom)) {
-            this.mario.contact(mushroom);
+    for(int i = 0; i < this.allMushroom.size(); i++){
+        if(this.mario.isClose(this.allMushroom.get(i)) && this.allMushroom.get(i).isLife() == true){
+            this.mario.isClose(this.allMushroom.get(i));
         }
-        if(this.mario.isClose(koopa)) {
-            this.mario.contact(koopa);
+    }
+          
+    for(int i = 0; i < this.allKoopa.size(); i++){
+        if(this.mario.isClose(this.allKoopa.get(i)) && this.allKoopa.get(i).isLife() == true){
+            this.mario.isClose(this.allKoopa.get(i));
         }
+    }
 
         this.moveBackground();
         if(this.xPos >= 0 && this.xPos <= 4430){
@@ -394,20 +399,36 @@ private ArrayList<Coin> allCoin;
      
         if(this.mario.isJumping()){g2.drawImage(this.mario.jump(), this.mario.getX(), this.mario.getY(), this);}
         else{g2.drawImage(this.mario.walk("mario", 25), this.mario.getX(), this.mario.getY(), this);}
-        
-        if(this.mushroom.isLife() == true){
-            g2.drawImage(this.mushroom.walk("champ", 45), this.mushroom.getX(), this.mushroom.getY(), this);
-        }else {
-            g2.drawImage(this.mushroom.die(), this.mushroom.getX(), this.mushroom.getY() + 20, this);
 
+        for(int i = 0; i < this.allMushroom.size(); i++){
+            if(this.allMushroom.get(i).isLife() == true){
+                g2.drawImage(this.allMushroom.get(i).walk("champ", 45), this.allMushroom.get(i).getX(), this.allMushroom.get(i).getY(), this);
+            }else{
+                g2.drawImage(this.allMushroom.get(i).die(), this.allMushroom.get(i).getX(), this.allMushroom.get(i).getY() + 20, this);
+            }
         }
 
-        if(this.koopa.isLife() == true){
-        g2.drawImage(this.koopa.walk("tortue", 45), this.koopa.getX(), this.koopa.getY(), this);
-        }else {
-                g2.drawImage(this.koopa.die(), this.koopa.getX(), this.koopa.getY() + 20, this);
-
+        for(int i = 0; i < this.allKoopa.size(); i++){
+            if(this.allKoopa.get(i).isLife() == true){
+                g2.drawImage(this.allKoopa.get(i).walk("tortue", 50), this.allKoopa.get(i).getX(), this.allKoopa.get(i).getY(), this);
+            }else{
+                g2.drawImage(this.allKoopa.get(i).die(), this.allKoopa.get(i).getX(), this.allKoopa.get(i).getY() + 30, this);
             }
+        }
+        
+        // if(this.mushroom.isLife() == true){
+        //     g2.drawImage(this.mushroom.walk("champ", 45), this.mushroom.getX(), this.mushroom.getY(), this);
+        // }else {
+        //     g2.drawImage(this.mushroom.die(), this.mushroom.getX(), this.mushroom.getY() + 20, this);
+
+        // }
+
+        // if(this.koopa.isLife() == true){
+        // g2.drawImage(this.koopa.walk("tortue", 45), this.koopa.getX(), this.koopa.getY(), this);
+        // }else {
+        //         g2.drawImage(this.koopa.die(), this.koopa.getX(), this.koopa.getY() + 20, this);
+
+        //     }
      
     }
 

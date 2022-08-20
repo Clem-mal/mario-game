@@ -9,7 +9,7 @@ public class Coin extends Objets implements Runnable {
     public Coin (int x, int y){
         super(x, y, 30, 30);
 
-        super.imgObjet = Toolkit.getDefaultToolkit().getImage("../images/piece1.png");
+        super.imgObjet = Toolkit.getDefaultToolkit().getImage("images/piece1.png");
 
     }
 

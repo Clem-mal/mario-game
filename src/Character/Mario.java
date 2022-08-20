@@ -12,7 +12,7 @@ public class Mario extends Character {
 
     public Mario (int x, int y){
         super(x, y , 28, 50);
-        imgMario = Toolkit.getDefaultToolkit().getImage("../images/marioArretDroite.png");
+        imgMario = Toolkit.getDefaultToolkit().getImage("images/marioArretDroite.png");
 
         this.isJumping = false;
         this.counterJump = 0;
@@ -39,24 +39,24 @@ public class Mario extends Character {
         if (this.isWalking == false || Main.scene.getxPos() <= 0 || Main.scene.getxPos() > 4430){
     
             if (this.isWalkingInRight == true) {
-                str = "../images/" + name + "ArretDroite.png";
+                str = "images/" + name + "ArretDroite.png";
             } else {
-                str = "../images/" + name + "ArretGauche.png";
+                str = "images/" + name + "ArretGauche.png";
             }
         } else {
             this.counter++;
     
             if(this.counter / frequency == 0){
                     if( this.isWalkingInRight == true){
-                        str = "../images/" + name + "ArretDroite.png";
+                        str = "images/" + name + "ArretDroite.png";
                     }else {
-                        str = "../images/" + name + "ArretGauche.png";
+                        str = "images/" + name + "ArretGauche.png";
                             }
             } else {
                     if( this.isWalkingInRight == true){
-                        str = "../images/" + name + "MarcheDroite.png";
+                        str = "images/" + name + "MarcheDroite.png";
                     }else {
-                        str = "../images/" + name + "MarcheGauche.png";
+                        str = "images/" + name + "MarcheGauche.png";
                         }
     
                 }if(this.counter == 2 * frequency){
@@ -82,21 +82,21 @@ public class Mario extends Character {
                     this.counterJump = 41;
                 }
                 if(this.isWalkingInRight() == true) {
-                    str = "../images/marioSautDroite.png";
+                    str = "images/marioSautDroite.png";
                 }else {
-                    str = "../images/marioSautGauche.png";
+                    str = "images/marioSautGauche.png";
                 }
             // retombé du saut
 
         }else if (this.getY() + this.getHeight() < Main.scene.getySol()){
                 this.setY(this.getY() + 1);
-                if(this.isWalkingInRight() == true) { str = "../images/marioSautDroite.png";}
+                if(this.isWalkingInRight() == true) { str = "images/marioSautDroite.png";}
             else {
-                str = "../images/marioSautGauche.png";
+                str = "images/marioSautGauche.png";
             } 
         }else {
-                if (this.isWalkingInRight() == true) { str = "../images/marioArretDroite.png";}
-                else {str = "../images/marioArretGauche.png";}
+                if (this.isWalkingInRight() == true) { str = "images/marioArretDroite.png";}
+                else {str = "images/marioArretGauche.png";}
                 this.isJumping = false;
                 this.counterJump = 0;
              } 

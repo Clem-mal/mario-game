@@ -9,6 +9,13 @@
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "Game.Main",
+            "projectName": "mario-game_a7456282"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Game.Main",
             "projectName": "Mario_257a9914"
         }
     ]
